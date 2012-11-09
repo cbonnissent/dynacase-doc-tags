@@ -1,0 +1,13 @@
+book:
+    title: "Guide d'intégration"
+    module: "Tags"
+    githubsrc: "https://github.com/Anakeen/dynacase-doc-tags"
+    version: "1.0"
+    edition: "1"
+    chapters:
+        - number: "1"
+          content: "introduction.md"
+        - number: "2"
+          content: "dynacase-tags.md"
+        - number: "3"
+          content: "dynacase-tags-ui.md"
