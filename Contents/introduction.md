@@ -10,4 +10,4 @@ Le module dynacase-tags
 : Il contient les fonctions php utile pour gérer les tags. C'est toute la partie serveur.
 
 Le module dynacase-tags-ui
-: C'est un ensemble d'IHM qui permettent la gestion des tags. C'est toute la partie client. Ce module fait appelle aux fonctions de dynacase-tags.
+: C'est un ensemble d'IHM qui permettent la gestion des tags. C'est toute la partie client. Ce module fait appelle aux fonctions de dynacase-tags. Les interfaces utilisent le modlue dynacase-document-grid-ui pour s'afficher.

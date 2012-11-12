@@ -7,10 +7,13 @@ Pour qu'un document puisse avoir un tag, Il faut que la famille de ce document p
 
 On peut accéder à une interface de gestion de tag de deux façons différentes. Soit en utilisant la méthode "tag()" accessible depuis l'instance de l'objet "Doc" du document, soit directement en utilisant les méthodes statiques de la classe "TagManager".
 
-Lors de la duplication de documents, les tags ne sont pas copiés.
+Lors de la duplication de documents, les tags ne sont pas copiés, de plus les tags sont indépendants des révisions de documents (un tag posé sur un document sera visible sur toutes les étapes de ce document).
 
 ## La propriété TAGABLE
 
+La propriété TAGABLE est une propriété de la famille. Elle est a ajouté dans le csv/ods de la famille dont on voudra tagguer les documents:
+
+![ Exemple d'un fichier ods avec la propriété TAGABLE ](ods_tag.png)
 
 Cette propriété peut avoir trois valeurs :
 
@@ -29,9 +32,9 @@ Cette propriété peut avoir trois valeurs :
 ## La méthode tag()
 
 
-Cette méthode est accessible à partir d'une instance de la classe "Doc". Elle permet d'avoir accès à des fonctions de gestion de tag pour le document qui l'appelle.
+Cette méthode est accessible à partir d'une instance de la classe "Doc". Elle permet d'avoir accès à des fonctions de gestion de tag pour le document qui l'appelle. Si le module n'est pas installé et que la méthode est appelée, une exception est envoyée.
 
-Les méthodes vérifient si la famille du document autorise la gestion de tag (propriété TAGABLE différente de "no") et retournent un message d'erreur dans le cas où elle ne l'est pas.
+Les méthodes vérifient si la famille du document autorise la gestion de tag (propriété TAGABLE différente de "no") et retournent un message d'erreur dans le cas où elle ne l'est pas (une chaîne de caractère précisant que le document ne peut pas avoir de tag).
 
 Exemple :
 
@@ -40,7 +43,12 @@ Exemple :
     	if ($doc->isAlive()) {
     		$tags = $doc->tag()->getTag(); //list of tags for document $doc
     		if (is_array($tags)) {
-    			//do something with document tags
+    		    //Usage example
+
+    			$doc->tag()->renameTag($tags[0], "Premier tag");
+    			$doc->tag()->addTag("Second tag");
+    			$doc->tag()->delTag($tags[0]);
+
     		} else {
     			$action->exitError($tags);
     		}
@@ -50,18 +58,19 @@ Les différentes méthodes accessibles par la méthode tag() sont :
 
 `getTag()` 
 
-: Retourne un tableau représentant tous les tags du document  ou un message d'erreur. Le tableau contient, pour chaque index, un tableau associatif de la forme : `array("tag" => "valeur_du_tag", "initid" => "initid_du_document_portant_ce_tag", "date" => "date_de_pose_du_tag", "fromuid" => "identifiant_de_l'utilisateur");`
+: Retourne un tableau représentant tous les tags du document  ou un message d'erreur. Le tableau contient, pour chaque index, un tableau associatif de la forme : `array("tag" => "valeur_du_tag", "initid" => "initid_du_document_portant_ce_tag", "date" => "date_de_pose_du_tag", "fromuid" => "identifiant_de_l'utilisateur");` En cas d'absence de tag sur le document, un tableau vide est renvoyé.
 
 `delTag($tag)` 
 
-: Supprime le tag du document ayant pour valeur $tag. Retourne un message d'erreur ou une chaîne vide.
+: Supprime le tag du document ayant pour valeur $tag (une chaine de caractère). Retourne un message d'erreur ou une chaîne vide.
 
 `addTag($tag)` 
 
-: Ajoute le tag $tag au document. Retourne un message d'erreur ou une chaîne vide. Si le document possède déjà le même tag, cette méthode retourne une chaîne vide et le tag n'est pas ajouté.
+: Ajoute le tag $tag (une chaine de caractère) au document. Retourne un message d'erreur ou une chaîne vide. Si le document possède déjà le même tag, cette méthode retourne une chaîne vide et le tag n'est pas ajouté (dans ce cas le document n'est pas modifié).
+
 `renameTag($currentTag, $newTag)`
 
-: Change la valeur du tag du document $currentTag en $newTag. Renvoie une erreur ou une chaine vide. Si $newTag est vide, une erreur sera renvoyée. Si $newTag et $oldTag ont la même valeur, rien ne sera fait et une chaîne vide sera renvoyée.
+: Change la valeur du tag du document $currentTag (une chaine de caractère) en $newTag (une chaine de caractère). Renvoie une erreur ou une chaine vide. Si $newTag est vide, une erreur est renvoyée. Si $newTag et $oldTag ont la même valeur, rien n'est fait et une chaîne vide est renvoyée. Si le tag est modifié, la date de pose du tag est modifié aussi.
 
 ## Les méthodes statiques de la classe TagManager
 
@@ -82,13 +91,15 @@ Les différentes méthodes statiques sont :
 `getAllTags($start = 0, $slice = 0, $query = "", $orderby = "")` 
 
 : Paramètres:
+
   * $start : Un entier représentant l'offset de la recherche
   * $slice : Un entier représentant la limite de la recherche
   * $query : une chaîne de caractère représentant une partie (en commençant par le début) ou toute la valeur du tag recherché
   * $orderby : une chaîne de caractères représentant la colonne avec laquelle on veut trier la recherche (tag, date, initid, fromuid)
 
   Retour:
-   un tableau de toutes les informations sur les tags commençant par $query, ordonnés par $orderby, commençant à l'index $start et ayant $slice éléments. Si $slice est égale à zéro, alors il n'y aura pas de limite sur le nombre d'éléments renvoyés.
+
+   * Un tableau de toutes les informations sur les tags commençant par $query, ordonnés par $orderby, commençant à l'index $start et ayant $slice éléments. Si $slice est égale à zéro, alors il n'y a pas de limite sur le nombre d'éléments renvoyés.
  Le tableau contient pour chaque index un tableau associatif de la forme :
  `array("tag" => "valeur_du_tag", "initid" => "initid_du_document_portant_ce_tag", "date" => "date_de_pose_du_tag", "fromuid" => "identifiant_de_l'utilisateur")`.
 
@@ -98,8 +109,16 @@ Les différentes méthodes statiques sont :
 
 `getAllTagsAndCount($start = 0, $slice = 0, $query = "", $orderby = "")`
 
-: Prend en paramètre facultatif deux entiers représentant l'offset et la limite de la recherche, une chaîne de caractère représentant une partie (en commençant par le début) ou toute la valeur du tag recherché et une chaîne de caractères représentant la colonne avec laquelle on veut trier la recherche (tag, number).
- Retourne un tableau contenant les valeurs des tags ainsi que le nombre de fois où ils sont posés sur différents documents dont la valeur des tags commence par $query, ordonnés par $orderby, commençant à l'index $start et ayant $slice éléments ou un message d'erreur. Chaque index est composé d'un tableau associatif de la forme : `array("tag" => "valeur_du_tag", "number" => "nombre_de_tag_sur_différents_documents")`
+: Paramètres:
+
+   * $start : Un entier représentant l'offset de la recherche
+   * $slice : Un entier représentant la limite de la recherche
+   * $query : une chaîne de caractère représentant une partie (en commençant par le début) ou toute la valeur du tag recherché
+   * $orderby : une chaîne de caractères représentant la colonne avec laquelle on veut trier la recherche (tag, date, initid, fromuid)
+
+   Retour:
+
+   * Un tableau contenant les valeurs des tags ainsi que le nombre de fois où ils sont posés sur différents documents dont la valeur des tags commence par $query, ordonnés par $orderby, commençant à l'index $start et ayant $slice éléments ou un message d'erreur. Chaque index est composé d'un tableau associatif de la forme : `array("tag" => "valeur_du_tag", "number" => "nombre_de_tag_sur_différents_documents")`
 
 `getTagCount($tag)` 
 
