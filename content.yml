@@ -2,7 +2,7 @@ book:
     title: "Guide d'intégration"
     module: "Tags"
     githubsrc: "https://github.com/Anakeen/dynacase-doc-tags"
-    version: "1.0"
+    version: "1.1"
     edition: "1"
     chapters:
         - number: "1"
