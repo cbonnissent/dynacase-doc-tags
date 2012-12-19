@@ -1,43 +1,47 @@
 # Dynacase-tags-ui {#dynacase_tags_ui}
 
-Dynacase-tags-ui est un module pour dynacase platform permettant la gestion, la navigation et l'affichage de mots-clé sur les documents.
+Dynacase-tags-ui est un module pour Platform permettant la gestion, la navigation et l'affichage de mots-clés sur les documents.
 
 Ce module est composé de trois parties :
 
-* [La zone_tag_management](#zone_tag_management)
-* [Le widget d'administration](#admin_tag)
-* [Le widget de recherche](#search_tag)
+   > * [La zone_tag_management](#zone_tag_management)
+   > * [Le widget d'administration](#admin_tag)
+   > * [Le widget de recherche](#search_tag)
 
 Le widget d'administration et le widget de recherche sont construis sur le pattern [widget](http://jqueryui.com/widget/) de [jquery-ui](http://jqueryui.com/).
+
 Ils se comportent donc comme tous les widget jquery-ui (initialisation, options, événements, etc...) et sont basés sur le plugin [datatable](http://www.datatables.net/) de jQuery.
+
 Lors de la création de ces widgets, le plugin génère un objet d'option pour la (ou les) dataTable, et injecte la (ou les) dataTable dans la page courante.
 
 ## La zone zone_tag_management {#zone_tag_management}
 
-C'est une zone (au sens dynacase) qui permet l'affichage des mots-clé sur les documents.
+C'est une zone (au sens dynacase) qui permet l'affichage des mots-clés sur les documents.
 
-Par défaut elle est située dans le pied de page d'un [document pouvant avoir des mots-clé](#tagableProperty).
-Si les document ne possède pas les bon droits, le pied de page sera celui créer par le controleur du document.
+Par défaut elle est située dans le pied de page d'un [document pouvant avoir des mots-clés](#tagableProperty).
+
+Si les documents ne possèdent pas les bons droits, le pied de page est celui créer par le controleur du document.
 
 Elle est composée de trois éléments :
 
 ![ Exemple de la zone de gestion de mot-clé ](zone_tag_management.png)
 
-* Un champ input (qui s'affiche lorsque l'on clique sur le + vert et blanc), permettant d'ajouter de nouveaux mots-clé. Ce champ possède une aide à la saisie, permettant de savoir quels sont les mots-clé déjà existant, et de choisir parmi eux.
-* Une flèche vers le haut ou le bas (en haut à droite) permettant d'afficher tous les mots-clé. Par défaut la zone aura une taille fixe d'environ deux lignes de mots-clé. Pour voir les autres mots-clé sur ce document il faudra cliquer sur la flèche.
-* Une liste de mots-clé cliquables, permettant d'accéder à l'interface de recherche par mot-clé et, en édition de document, un bouton de suppression de mot-clé est disponible.
+   > * Un champ input (qui s'affiche lorsque l'on clique sur le + vert et blanc), permettant d'ajouter de nouveaux mots-clés. Ce champ possède une aide à la saisie, permettant de savoir quels sont les mots-clés déjà existant, et de choisir parmi eux.
+   > * Une flèche vers le haut ou le bas (en haut à droite) permettant d'afficher tous les mots-clés. Par défaut la zone aura une taille fixe d'environ deux lignes de mots-clés. Pour voir les autres mots-clés sur ce document il faudra cliquer sur la flèche.
+   > * Une liste de mots-clés cliquables, permettant d'accéder à l'interface de recherche par mot-clé et, suivant [les droits](#tagableProperty), un bouton de suppression de mot-clé est disponible.
 
-Bien que la zone soit affichée sur tous les documents que l'on peut mettre de mot-clé dès l’installation du module, les fonctions d'ajout et de suppression de mots-clé ne sont disponibles qu'avec [les bons droits](#tagableProperty).
+Bien que la zone soit affichée sur tous les documents que l'on peut mettre de mot-clé dès l’installation du module, les fonctions d'ajout et de suppression de mots-clés ne sont disponibles qu'avec [les bons droits](#tagableProperty).
 
 ## Le widget d'administration {#admin_tag}
 ### Présentation
 
-C'est un widget permettant la gestion et manipulation d'un grand nombre de mots-clé indépendamment des documents.
+C'est un widget permettant la gestion et manipulation d'un grand nombre de mots-clés indépendamment des documents.
 
 Il est accessible par défaut depuis le menu administration de Platform.
 
-La sélection des mots-clé est multiple (on peut sélectionner plusieurs mots-clé) et persistante (on peut filtrer la liste des mots-clé et/ou changer de page en sélectionnant différents mots-clé, ils restent sélectionnés même après les changements de pages et filtres).
-Les mots-clé sélectionnés apparaissent en dessous des boutons. Ils sont alors cliquables pour accéder au [widget de recherche](#search_tag)
+La sélection des mots-clés est multiple (on peut sélectionner plusieurs mots-clés) et persistante (on peut filtrer la liste des mots-clés et/ou changer de page en sélectionnant différents mots-clés, ils restent sélectionnés même après les changements de pages et filtres).
+
+Les mots-clés sélectionnés apparaissent en dessous des boutons. Ils sont alors cliquables pour accéder au [widget de recherche](#search_tag)
 
 Exemple :
 
@@ -45,11 +49,11 @@ Exemple :
 
 Il permet :
 
-* de [regrouper plusieurs mots-clé en un seul](#renameAllTags).
-* de [supprimer plusieurs mots-clé](#deleteAllTags)
+* de [regrouper plusieurs mots-clés en un seul](#renameAllTags).
+* de [supprimer plusieurs mots-clés](#deleteAllTags)
 * de [renommer un mot-clé](#renameTag)
-* de [chercher parmi les mots-clé](#otherTag) grâce à un système de filtres
-* de voir [sur combien de documents différents sont posés les mots-clé](#otherTag)
+* de [chercher parmi les mots-clés](#otherTag) grâce à un système de filtres
+* de voir [sur combien de documents différents sont posés les mots-clés](#otherTag)
 
 ### Mode d'emploi
 #### Dépendances
@@ -123,7 +127,7 @@ Fichier html
      [ZONE CORE:HTMLFOOT]
 
 Fichier php
-: Exemple
+: Exemple:
 
     [php]
     function admin_tag(Action & $action)
@@ -161,13 +165,13 @@ dialog
 :   sélecteur vers l'élément permettant l'affichage des messages par overlay
 
 regroupButton
-:   sélecteur vers le bouton qui sera utilisé pour [regrouper plusieurs mots-clé en un seul](#renameAllTags).
+:   sélecteur vers le bouton qui est utilisé pour [regrouper plusieurs mots-clés en un seul](#renameAllTags).
 
 deleteButton
-:   sélecteur vers le bouton qui sera utilisé pour [supprimer plusieurs mots-clé](#deleteAllTags).
+:   sélecteur vers le bouton qui est utilisé pour [supprimer plusieurs mots-clés](#deleteAllTags).
 
 clearSelectionButton
-:   sélecteur vers le bouton qui sera utilisé pour [réinitialiser la sélection](#otherTags).
+:   sélecteur vers le bouton qui est utilisé pour [réinitialiser la sélection](#otherTags).
 
 
 dataTableOptions
@@ -188,62 +192,65 @@ initAdminTag
     Cette méthode appelle refresh
 
 gettingSelectedRow
-:   Permet d'avoir une liste des mots-clé sélectionnés dans la table.
+:   Permet d'avoir une liste des mots-clés sélectionnés dans la table.
     Retourne un tableau associatif contenant :
-        * "listOfName": chaine de caractère listant les mots-clé sélectionnés (de la forme "- nom_du_mot-clé<br/>- nom_du_deuxième_mot-clé..."
-        * "counTags": nombre de mot-clé sélectionné
+
+   > *      *"listOfName"*: chaine de caractère listant les mots-clés sélectionnés (de la forme "- nom_du_mot-clé<br/>- nom_du_deuxième_mot-clé..."
+   > *      *"counTags"*: nombre de mots-clés sélectionnés
 
 updateRow
-:   Permet de mettre à jour une ligne de la table.
-    Prend en paramètre l'ancienne valeur du mot-clé ainsi que sa nouvelle valeur.
-    La table est recréée entièrement avec les nouvelles informations et les sélection sont perdus.
+:  Permet de mettre à jour une ligne de la table.
+
+   Prend en paramètre l'ancienne valeur du mot-clé ainsi que sa nouvelle valeur.
+
+   La table est recréée entièrement avec les nouvelles informations et les sélection sont perdus.
 
 Ces méthodes sont appelées avec la syntaxe suivante:
 
     [javascript]
     $("#admin_tag").tagadmin("<fonction_name>")
 
+### Fonctionnement
+#### Regroupement de mots-clés {#renameAllTags}
 
-### Regroupement de mot-clés {#renameAllTags}
-
-C'est la fonctionnalité qui permet de renommer plusieurs mots-clé en une seule action.
-
-Utilisation
-
-: 1. Sélectionner tous les mots-clé que l'on veut renommer
-  2. Cliquer sur le bouton "Regrouper les mots-clé en un seul".
-  3. Un overlay apparaît, récapitulant les mots-clé qui vont être changés, ainsi que le nombre de documents différents affectés.
-  4. Entrer la nouvelle valeur que l'on veut donner à ses mots-clé dans le champ input de l'overlay.
-  5. Cliquer sur le bouton "Regrouper les mots-clé" de l'overlay,
-  6. Tous les mots-clé sélectionnés, sur tous les documents qui les possèdent, sont renommés.
-
-Cette action est irréversible.
-En cas d'erreur, un message expliquant l'erreur appraitra à l'écran, et les mots-clé ne seront pas renommés.
-
-Exemple :
-
-![ Exemple de regroupement de mots-clé ](admin_tag_regroup.png)
-
-### Suppression de plusieurs mot-clés {#deleteAllTags}
-
-C'est la fonctionnalité qui permet de supprimer un ou plusieurs mots-clé sur tous les documents qui les portent.
+C'est la fonctionnalité qui permet de renommer plusieurs mots-clés en une seule action.
 
 Utilisation
 
-: 1. Sélectionner les mots-clé que l'on veut supprimer
-  2. Cliquer sur le bouton "Supprimer les mots-clé".
-  3. Un overlay s'ouvre, récapitulant la liste des mots-clé qui vont être supprimés ainsi que le nombre de documents différents affectés.
-  4. Cliquer sur le bouton "Supprimer les mots-clé" de l'overlay
+: 1. Sélectionner tous les mots-clés que l'on veut renommer
+  2. Cliquer sur le bouton "Regrouper les mots-clés en un seul".
+  3. Un overlay apparaît, récapitulant les mots-clés qui vont être changés, ainsi que le nombre de documents différents affectés.
+  4. Entrer la nouvelle valeur que l'on veut donner à ses mots-clés dans le champ input de l'overlay.
+  5. Cliquer sur le bouton "Regrouper les mots-clés" de l'overlay,
+  6. Tous les mots-clés sélectionnés, sur tous les documents qui les possèdent, sont renommés.
+
+   Cette action est irréversible.
+
+   En cas d'erreur, un message expliquant l'erreur appraitra à l'écran, et les mots-clés ne seront pas renommés.
+
+Exemple :
+: ![ Exemple de regroupement de mots-clés ](admin_tag_regroup.png)
+
+#### Suppression de plusieurs mots-clés {#deleteAllTags}
+
+C'est la fonctionnalité qui permet de supprimer un ou plusieurs mots-clés sur tous les documents qui les portent.
+
+Utilisation
+
+: 1. Sélectionner les mots-clés que l'on veut supprimer
+  2. Cliquer sur le bouton "Supprimer les mots-clés".
+  3. Un overlay s'ouvre, récapitulant la liste des mots-clés qui vont être supprimés ainsi que le nombre de documents différents affectés.
+  4. Cliquer sur le bouton "Supprimer les mots-clés" de l'overlay
   5. Les tags sélectionnés sont supprimés de tous les documents qui les possèdent.
 
-Cette action est irréversible.
-En cas d'erreur, un message expliquant l'erreur appraitra à l'écran, et les mots-clé ne seront pas supprimés.
+   Cette action est irréversible.
+
+   En cas d'erreur, un message expliquant l'erreur appraitra à l'écran, et les mots-clés ne seront pas supprimés.
 
 Exemple :
+: ![ Exemple de suppression de mots-clés ](admin_tag_delete.png)
 
-![ Exemple de suppression de mots-clé ](admin_tag_delete.png)
-
-### Renommer un mot-clé {#renameTag}
+#### Renommer un mot-clé {#renameTag}
 
 C'est la fonctionnalité qui permet de renommer un mot-clé sur tous les documents sur lesquels il est posé.
 
@@ -258,12 +265,11 @@ Utilisation
 Une fois la nouvelle valeur validée, on ne peut plus annuler la modification.
 
 Exemple :
+: ![ Exemple de renomage de mots-clés ](admin_tag_rename.png)
 
-![ Exemple de renomage de mots-clé ](admin_tag_rename.png)
+#### Autres fonctionnalités {#otherTag}
 
-### Autres fonctionnalités {#otherTag}
-
-On peut aussi ordonner la liste par ordre alphabétique, par ordre alphabétique inversé, par nombre de documents qui portent le mot-clé croissant ou par nombre de documents qui portent le mot-clé décroissant, en cliquant sur les intitulés des colonnes correspondantes.
+On peut aussi ordonner la liste par ordre alphabétique, par ordre alphabétique inversé, par nombre de documents qui portent le mot-clé croissant ou décroissant, en cliquant sur les intitulés des colonnes correspondantes.
 
 Comme la sélection est persistante, un bouton "Réinitialiser la sélection" est disponible pour remettre la sélection à zéro.
 
@@ -274,17 +280,16 @@ On peut filtrer par nom de mot-clé en tapant le nom recherché dans le champ en
 
 C'est un widget permettant la navigation par mot-clé.
 
-On peut, comme avec le widget d'administration, voir le nombre de documents qui possèdent un mot-clé, mais en plus, avoir le titre de ces documents, un lien vers ces documents et un mécanisme de tri et de filtre parmi ces documents.
+On peut, comme avec le [widget d'administration](#admin_tag), voir le nombre de documents qui possèdent un mot-clé, mais en plus, avoir le titre de ces documents, un lien vers ces documents et un mécanisme de tri et de filtre parmi ces documents.
 
 Il est accessible en cliquant sur un mot-clé dans un document, ou sur la liste récapitulative du [widget d'administration](#admin_tag).
-On peut aussi y accéder par l'url "racine_du_contexte/?app=TAGMANAGMENT&action=SEARCH_TAG".
-Pour l'utiliser, il faut posséder les droits TAGMANAGEMENT_NORMAL
+
 On peut l'intégrer dans d'autre page à l'aide d'iframe (la page possédant déjà son propre header)
 
 
 Exemple :
 
-![ Exemple de l'interface de recherche de mots-clé ](search_tag.png)
+![ Exemple de l'interface de recherche de mots-clés ](search_tag.png)
 
 
 Il est composé de deux parties :
@@ -406,16 +411,16 @@ Fichier javascript
 Les options en gras sont obligatoires
 
 **tagTable**
-:   sélecteur vers la balise `<table>` qui contiendra la partie affichage et recherche des mots-clé
+:   sélecteur vers la balise `<table>` qui contiendra la partie affichage et recherche des mots-clés
 
 **docTable**
-:   sélecteur vers la balise `<table>` qui contiendra la partie affichage et recherche des documents liés aux mots-clé
+:   sélecteur vers la balise `<table>` qui contiendra la partie affichage et recherche des documents liés aux mots-clés
 
 **searchField**
 :   sélecteur vers le/les champs qui servent au filtrage de la dataTable
 
 init_tag
-:   valeur de la recherche des mots-clé à l'initialisation du widget
+:   valeur de la recherche des mots-clés à l'initialisation du widget
 
 dataTableOptions
 :   Options bas niveau de la dataTable (voir la [page d'aide de dataTable](http://www.datatables.net/usage/options)).
@@ -427,13 +432,13 @@ destroy
     La table est alors supprimée (la balise reste en place, mais son contenu est vidé),
 
 initDocTable
-:   Initialise la table qui permet la recherche et l'affichage des documents liés aux mots-clé
+:   Initialise la table qui permet la recherche et l'affichage des documents liés aux mots-clés
 
 iniTagTable
-:   Initialise la table qui permet la recherche et l'affichage des mots-clé
+:   Initialise la table qui permet la recherche et l'affichage des mots-clés
 
 getCollection
-:   Prend en paramètre la valeur d'un mot-clé et le sélecteur jQuery repésentant le tableau qui contient la partie affichage et recherche des documents liés aux mots-clé.
+:   Prend en paramètre la valeur d'un mot-clé et le sélecteur jQuery repésentant le tableau qui contient la partie affichage et recherche des documents liés aux mots-clés.
     Rafraichi le tableau passé en paramètre avec les documents qui possèdent le mot-clé passé en paramètre.
 
 Ces méthodes sont appelées avec la syntaxe suivante:
