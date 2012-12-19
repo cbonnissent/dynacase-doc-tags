@@ -88,7 +88,36 @@ Ces méthodes, contrairement aux méthodes liées à la [méthode "tag()"](#meth
 Exemple :
 
     [PHP]
-    $all_tags = TagManager::listAllTags(); //Array of all tags or string with error message
+     try {
+            switch ($type) {
+                case "getAll":
+                    $data = TagManager::listAllTags($start, $slice, $sSearch, $sortSearch);
+                    break;
+
+                case "getValue":
+                     $data = TagManager::listAllTags($start, $slice, $sSearch, $sortSearch);
+                     $data = TagManager::listTagsValue($data);
+                     break;
+
+                case "getAllAndCount":
+                    $data = TagManager::listAllTagsWithNumber($start, $slice, $sSearch, $sortSearch);
+                    break;
+
+                case "update":
+                    TagManager::renameTagOnAllDocument($oldTag, $tags);
+                    break;
+
+                case "deleteAll":
+                    TagManager::deleteTagOnAllDocument($tags);
+                    break;
+
+                default:
+                    $out['error'] = sprintf(_("tagmanagement: wrong action [%s]") , $type);
+            }
+        }
+        catch(\Dcp\Exception $e) {
+            $out["error"] = $e->getMessage();
+        }
 
 Les différentes méthodes statiques sont :
 
@@ -99,7 +128,6 @@ Les différentes méthodes statiques sont :
 `listAllTags($start = 0, $slice = 0, $query = "", $orderby = "")` 
 
 : Paramètres:
-
   * $start : Un entier représentant l'offset de la recherche
   * $slice : Un entier représentant la limite de la recherche
   * $query : une chaîne de caractère représentant une partie (en commençant par le début) ou toute la valeur du mot-clé recherché
