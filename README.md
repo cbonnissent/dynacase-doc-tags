@@ -1,4 +1,5 @@
-dynacase-doc-tags
-=================
+# Dynacase Tags reference manual
 
-Tags is a Dynacase module that provides tag management on documents
+_Code :_
+
+* [Tags](https://github.com/Anakeen/dynacase-tags)
